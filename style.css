@@ -135,33 +135,3 @@ video {
   height: 100%;
   object-fit: cover; /* Video memenuhi seluruh layar */
 }
-
-/* Container Video Fullscreen */
-#video-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: #000000;
-  z-index: 20;
-  pointer-events: none; /* Memblokir semua interaksi klik/sentuhan pada area video */
-}
-
-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none; /* Mencegah munculnya overlay bawaan browser saat ditekan */
-}
-
-/* Sembunyikan kontrol bawaan browser (khusus Webkit / Chrome / Safari / Edge) */
-video::-webkit-media-controls {
-  display: none !important;
-}
-video::-webkit-media-controls-enclosure {
-  display: none !important;
-}
-video::-webkit-media-controls-panel {
-  display: none !important;
-}

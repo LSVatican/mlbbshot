@@ -7,35 +7,44 @@ document.addEventListener('DOMContentLoaded', () => {
   const videoContainer = document.getElementById('video-container');
   const video = document.getElementById('my-video');
 
-  // ============================================================
-  // BLOKIR SISTEM PANEL PEMUTAR BAWAAN BROWSER
-  // ============================================================
-  video.removeAttribute('controls'); // Pastikan atribut controls dilepas
-  video.controls = false;
-
-  // Blokir menu klik kanan / press and hold di HP
+  // 1. Blokir Menu Klik Kanan & Kontrol Bawaan
   video.addEventListener('contextmenu', (e) => e.preventDefault());
-  videoContainer.addEventListener('contextmenu', (e) => e.preventDefault());
+  video.removeAttribute('controls');
 
-  // Blokir tombol keyboard yang biasa mengontrol media browser (Spasi, K, F, M, dll)
-  window.addEventListener('keydown', (e) => {
-    if (!videoContainer.classList.contains('hidden')) {
-      const blockedKeys = ['Space', 'KeyK', 'KeyF', 'KeyM', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
-      if (blockedKeys.includes(e.code) || e.key === ' ') {
-        e.preventDefault();
+  // 2. BLOKIR MEDIA SESSION (Notifikasi / Panel Pemutar Bawaan Browser)
+  if ('mediaSession' in navigator) {
+    // Kosongkan Metadata agar tidak menampilkan judul/gambar di notifikasi
+    navigator.mediaSession.metadata = null;
+
+    // Matikan/Timpa semua action handler bawaan browser
+    const actionHandlers = [
+      'play',
+      'pause',
+      'seekbackward',
+      'seekforward',
+      'previoustrack',
+      'nexttrack',
+      'stop',
+      'seekto'
+    ];
+
+    actionHandlers.forEach(action => {
+      try {
+        navigator.mediaSession.setActionHandler(action, null);
+      } catch (e) {
+        // Mengabaikan jika ada aksi yang tidak didukung oleh browser tertentu
       }
-    }
-  });
-  // ============================================================
+    });
+  }
 
-  // Fungsi Memulai Proses saat tombol diklik
+  // 3. Fungsi Memulai Proses
   startBtn.addEventListener('click', () => {
     mainPage.classList.add('hidden');
     loadingScreen.classList.remove('hidden');
     startLoading();
   });
 
-  // Sistem Loading Bar (Interval 500ms)
+  // 4. Sistem Loading Bar
   function startLoading() {
     let progress = 0;
     
@@ -57,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 500);
   }
 
-  // Memutar Video Fullscreen Otomatis
+  // 5. Memutar Video Fullscreen
   function playVideoFullscreen() {
     loadingScreen.classList.add('hidden');
     videoContainer.classList.remove('hidden');
@@ -71,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     video.play();
   }
 
-  // Otomatis Kembali ke Halaman Utama Setelah Durasi Video Habis
+  // 6. Otomatis Kembali ke Halaman Utama Setelah Video Selesai
   video.addEventListener('ended', () => {
     if (document.fullscreenElement) {
       document.exitFullscreen().catch(() => {});
