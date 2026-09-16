@@ -1,99 +1,137 @@
+/* Reset Basic */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none; /* Mencegah seleksi teks */
 }
 
 body {
-    background-color: #000000;
-    color: #ffffff;
-    height: 100vh;
-    overflow: hidden;
+  background-color: #000000; /* Latar belakang hitam */
+  color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 100vh;
+  overflow: hidden;
 }
 
-.container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    text-align: center;
-}
-
+/* Helper Class */
 .hidden {
-    display: none !important;
+  display: none !important;
 }
 
-/* Judul & Tombol */
-h1 {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    color: #1e90ff;
-    text-shadow: 0 0 10px rgba(30, 144, 255, 0.5);
+/* Halaman Utama */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  padding: 20px;
 }
 
-button {
-    background-color: #0066cc;
-    color: #ffffff;
-    border: none;
-    padding: 14px 32px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0, 102, 204, 0.4);
-    transition: background 0.3s, transform 0.2s;
+.title {
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+  color: #1e90ff; /* Biru elegan */
+  text-shadow: 0 0 10px rgba(30, 144, 255, 0.5);
 }
 
-button:hover {
-    background-color: #0052a3;
-    transform: scale(1.05);
+/* Tombol Biru Elegan */
+.btn {
+  background: linear-gradient(135deg, #0052d4, #4364f7, #6fb1fc);
+  color: #ffffff;
+  padding: 15px 40px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 82, 212, 0.4);
+  transition: all 0.3s ease;
 }
 
-/* Loading Bar */
-.loader-box {
-    width: 80%;
-    max-width: 300px;
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(67, 100, 247, 0.6);
 }
 
-.progress-bar {
-    width: 100%;
-    height: 12px;
-    background-color: #1a1a1a;
-    border-radius: 6px;
-    overflow: hidden;
-    border: 1px solid #0066cc;
-    margin-bottom: 10px;
+.btn:active {
+  transform: translateY(1px);
 }
 
-#progress-fill {
-    height: 100%;
-    width: 0%;
-    background-color: #1e90ff;
-    box-shadow: 0 0 8px #1e90ff;
-    transition: width 0.4s ease;
+/* Footer Label */
+.footer-label {
+  position: absolute;
+  bottom: 25px;
+  font-size: 0.9rem;
+  color: #1e90ff;
+  letter-spacing: 1px;
+  opacity: 0.8;
 }
 
-#progress-text {
-    color: #1e90ff;
-    font-weight: bold;
+/* Screen Loading */
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
 }
 
-/* Video Fullscreen */
-#video-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #000;
-    z-index: 999;
+.loading-box {
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.loading-text {
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  color: #1e90ff;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 12px;
+  background-color: #111111;
+  border-radius: 10px;
+  border: 1px solid #1e90ff;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+#progress-bar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #0052d4, #1e90ff);
+  transition: width 0.4s ease;
+}
+
+#percentage-text {
+  font-size: 1rem;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* Container Video Fullscreen */
+#video-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000;
+  z-index: 20;
 }
 
 video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    pointer-events: none; /* Mencegah interaksi/klik pada video */
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Video memenuhi seluruh layar */
 }
