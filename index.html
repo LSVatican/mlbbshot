@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Created by Daus Dopo</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Halaman Utama -->
+    <div id="main-screen" class="container">
+        <h1>Created by Daus Dopo</h1>
+        <button id="play-btn">Putar Video</button>
+    </div>
+
+    <!-- Layar Loading -->
+    <div id="loading-screen" class="container hidden">
+        <div class="loader-box">
+            <div class="progress-bar">
+                <div id="progress-fill"></div>
+            </div>
+            <p id="progress-text">0%</p>
+        </div>
+    </div>
+
+    <!-- Container Video Fullscreen -->
+    <div id="video-screen" class="hidden">
+        <video id="my-video" preload="auto">
+            <source src="/video.mp4" type="video/mp4">
+            Browser kamu tidak mendukung pemutar video.
+        </video>
+    </div>
+
+    <script>
+        const playBtn = document.getElementById('play-btn');
+        const mainScreen = document.getElementById('main-screen');
+        const loadingScreen = document.getElementById('loading-screen');
+        const videoScreen = document.getElementById('video-screen');
+        const progressFill = document.getElementById('progress-fill');
+        const progressText = document.getElementById('progress-text');
+        const video = document.getElementById('my-video');
+
+        let progress = 0;
+
+        // Blokir tindakan bawaan browser pada video (klik kanan & sentuhan lama)
+        video.addEventListener('contextmenu', (e) => e.preventDefault());
+        video.addEventListener('touchstart', (e) => e.preventDefault());
+
+        playBtn.addEventListener('click', () => {
+            mainScreen.classList.add('hidden');
+            loadingScreen.classList.remove('hidden');
+            startLoading();
+        });
+
+        function startLoading() {
+            progress = 0;
+            progressFill.style.width = '0%';
+            progressText.innerText = '0%';
+
+            const interval = setInterval(() => {
+                progress += 10;
+                if (progress > 100) progress = 100;
+
+                progressFill.style.width = `${progress}%`;
+                progressText.innerText = `${progress}%`;
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(playVideo, 500);
+                }
+            }, 500);
+        }
+
+        function playVideo() {
+            loadingScreen.classList.add('hidden');
+            videoScreen.classList.remove('hidden');
+
+            video.currentTime = 0;
+            video.play();
+
+            // Masuk mode fullscreen jika didukung perangkat
+            if (videoScreen.requestFullscreen) {
+                videoScreen.requestFullscreen().catch(() => {});
+            }
+        }
+
+        // Kembali ke halaman utama saat video selesai
+        video.addEventListener('ended', () => {
+            if (document.fullscreenElement) {
+                document.exitFullscreen().catch(() => {});
+            }
+            videoScreen.classList.add('hidden');
+            mainScreen.classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
